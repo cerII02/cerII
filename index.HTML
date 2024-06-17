@@ -47,9 +47,10 @@
             list-style: none;
             margin: 0;
             display: flex;
+            flex-wrap: wrap;
         }
         header li {
-            padding: 0 20px;
+            padding: 10px;
         }
         header #branding {
             flex: 1;
@@ -158,6 +159,7 @@
             header li {
                 display: block;
                 padding: 10px;
+                text-align: center;
             }
             .banner h1 {
                 font-size: 28px;
@@ -186,6 +188,71 @@
                 transform: translateY(0);
             }
         }
+        #depoimentos {
+            padding: 60px 0;
+            background: #f8f9fa;
+            border-bottom: #e6e6e6 1px solid;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #depoimentos h2 {
+            color: #00008b;
+            font-size: 36px;
+            border-bottom: #00008b 2px solid;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        #depoimentos h2::after {
+            content: '';
+            width: 50px;
+            height: 4px;
+            background: #ffeb3b;
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+        }
+
+        #depoimento-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        #depoimento-form label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        #depoimento-form input, #depoimento-form textarea {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        #depoimento-form button {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background: #00008b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        #depoimento-form button:hover {
+            background: #ffeb3b;
+            color: #00008b;
+        }
     </style>
 </head>
 <body>
@@ -197,12 +264,14 @@
             <nav>
                 <ul>
                     <li class="current"><a href="#home">Início</a></li>
-                    <li><a href="#documentacao">Documentação Necessária</a></li>
+                    <li><a href="#documentacao">Documentação</a></li>
                     <li><a href="#quem-somos">Quem Somos</a></li>
                     <li><a href="#endereco">Endereço</a></li>
-                    <li><a href="#horario">Horário de Funcionamento</a></li>
+                    <li><a href="#horario">Horário</a></li>
                     <li><a href="#equipe">Equipe</a></li>
                     <li><a href="#nosso-espaco">Nosso Espaço</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                    <li><a href="#depoimentos">Depoimentos</a></li>
                 </ul>
             </nav>
         </div>
@@ -258,8 +327,77 @@
         <img src="https://www.santacasaba.org.br/conteudo/not/001/gal/grd/000875.jpg" alt="Nosso Espaço 3">
     </section>
 
+    <section id="contato" class="container">
+        <h2>Contato</h2>
+        <form id="contato-form">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="mensagem">Mensagem:</label>
+            <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+            
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <section id="depoimentos" class="container">
+        <h2>Deixe seu Depoimento</h2>
+        <form id="depoimento-form">
+            <label for="nome-depoimento">Nome:</label>
+            <input type="text" id="nome-depoimento" name="nome-depoimento" required>
+            
+            <label for="depoimento">Depoimento:</label>
+            <textarea id="depoimento" name="depoimento" rows="5" required></textarea>
+            
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
     <footer>
         <p>CER II - Centro Especializado em Reabilitação &copy; 2024</p>
     </footer>
+
+    <script>
+    document.getElementById('contato-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        
+        fetch('/path-to-your-server-endpoint', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Mensagem enviada com sucesso!');
+            document.getElementById('contato-form').reset();
+        })
+        .catch(error => {
+            alert('Ocorreu um erro ao enviar a mensagem. Tente novamente mais tarde.');
+        });
+    });
+
+    document.getElementById('depoimento-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        
+        fetch('/path-to-your-server-endpoint-depoimentos', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Depoimento enviado com sucesso!');
+            document.getElementById('depoimento-form').reset();
+        })
+        .catch(error => {
+            alert('Ocorreu um erro ao enviar o depoimento. Tente novamente mais tarde.');
+        });
+    });
+    </script>
 </body>
 </html>
